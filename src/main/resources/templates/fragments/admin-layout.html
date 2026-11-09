@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<aside th:fragment="sidebar(active)" class="admin-sidebar">
+    <a class="admin-brand" th:href="@{/admin}"><span class="brand-symbol">A</span><span>AURELIA<small>OPERATIONS</small></span></a>
+    <span class="admin-nav-label">OVERVIEW</span>
+    <a class="admin-nav-link" th:classappend="${active == 'dashboard' ? ' active' : ''}" th:href="@{/admin}"><span class="admin-nav-icon">▦</span>Dashboard</a>
+    <span class="admin-nav-label">MANAGE</span>
+    <a class="admin-nav-link" th:classappend="${active == 'rooms' ? ' active' : ''}" th:href="@{/admin/rooms}"><span class="admin-nav-icon">▤</span>Rooms</a>
+    <a class="admin-nav-link" th:classappend="${active == 'room-types' ? ' active' : ''}" th:href="@{/admin/room-types}"><span class="admin-nav-icon">◫</span>Room types</a>
+    <a class="admin-nav-link" th:classappend="${active == 'bookings' ? ' active' : ''}" th:href="@{/admin/bookings}"><span class="admin-nav-icon">▧</span>Bookings</a>
+    <a class="admin-nav-link" th:classappend="${active == 'customers' ? ' active' : ''}" th:href="@{/admin/customers}"><span class="admin-nav-icon">◎</span>Customers</a>
+    <div class="admin-sidebar-bottom"><a th:href="@{/}" class="admin-nav-link"><span class="admin-nav-icon">↗</span>View hotel site</a><form th:action="@{/logout}" method="post"><button class="admin-nav-link" type="submit"><span class="admin-nav-icon">⇥</span>Sign out</button></form></div>
+</aside>
+</body>
+</html>

@@ -1,0 +1,38 @@
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: ${DB_NAME:-hotel_booking}
+      POSTGRES_USER: ${DB_USERNAME:-hotel_app}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in the environment}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-hotel_app} -d ${DB_NAME:-hotel_booking}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_URL: jdbc:postgresql://db:5432/${DB_NAME:-hotel_booking}
+      DB_USERNAME: ${DB_USERNAME:-hotel_app}
+      DB_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in the environment}
+      HOTEL_ADMIN_EMAIL: ${HOTEL_ADMIN_EMAIL:-}
+      HOTEL_ADMIN_PASSWORD: ${HOTEL_ADMIN_PASSWORD:-}
+      UPLOAD_DIR: /app/uploads
+      SERVER_SERVLET_SESSION_COOKIE_SECURE: "false"
+      PORT: 8080
+    ports:
+      - "${PORT:-8080}:8080"
+    volumes:
+      - room_uploads:/app/uploads
+
+volumes:
+  postgres_data:
+  room_uploads:

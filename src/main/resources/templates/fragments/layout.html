@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<header th:fragment="header" class="site-header">
+    <nav class="navbar navbar-expand-lg container">
+        <a class="brand-mark" th:href="@{/}" aria-label="Aurelia House home">
+            <span class="brand-symbol">A</span>
+            <span class="brand-name">AURELIA <small>HOUSE HOTEL</small></span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="Toggle navigation">
+            <span class="nav-toggle-lines"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+            <div class="navbar-nav ms-auto align-items-lg-center">
+                <a class="nav-link" th:href="@{/rooms}">Stay</a>
+                <a class="nav-link" th:href="@{/about}">Our story</a>
+                <a class="nav-link" th:href="@{/contact}">Contact</a>
+                <a class="nav-link" sec:authorize="hasRole('CUSTOMER')" th:href="@{/my-bookings}">My stays</a>
+                <a class="nav-link" sec:authorize="hasRole('ADMIN')" th:href="@{/admin}">Dashboard</a>
+                <a class="nav-link nav-login" sec:authorize="isAnonymous()" th:href="@{/login}">Sign in</a>
+                <a class="button button-small" sec:authorize="isAnonymous()" th:href="@{/register}">Join us <span aria-hidden="true">↗</span></a>
+                <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post" class="d-inline">
+                    <button class="nav-link nav-logout" type="submit">Sign out</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<footer th:fragment="footer" class="site-footer">
+    <div class="container footer-main">
+        <div class="footer-brand">
+            <a class="brand-mark brand-mark-light" th:href="@{/}">
+                <span class="brand-symbol">A</span>
+                <span class="brand-name">AURELIA <small>HOUSE HOTEL</small></span>
+            </a>
+            <p>A considered city retreat, made for the moments between arriving and leaving.</p>
+        </div>
+        <div class="footer-column"><span class="eyebrow">Find us</span><p>18 Garden Lane<br>Portland, Oregon 97205</p></div>
+        <div class="footer-column"><span class="eyebrow">Get in touch</span><p><a href="tel:+15035550184">+1 503 555 0184</a><br><a href="mailto:stay@aureliahouse.example">stay@aureliahouse.example</a></p></div>
+        <div class="footer-column"><span class="eyebrow">Explore</span><p><a th:href="@{/rooms}">Rooms & suites</a><br><a th:href="@{/about}">Our story</a><br><a th:href="@{/contact}">Contact</a></p></div>
+    </div>
+    <div class="container footer-bottom"><span>© 2026 Aurelia House Hotel</span><span>Stay a little longer.</span></div>
+</footer>
+</body>
+</html>
